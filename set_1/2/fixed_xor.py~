@@ -1,0 +1,3 @@
+cadena_hex = "1c0111001f010100061a024b53535009181c"
+cadena = cadena_hex.decode("hex")
+print(cadena)

@@ -1,0 +1,65 @@
+import base64
+
+class hamming_distance:
+    def hamming_dist(self,cadena_1,cadena_2):
+        str_hamming_distance = ""
+        count_hamming_distance = 0
+        
+        # for index in range(len(cadena_1)):    
+        #     str_hamming_distance +=  ''.join('{0:b}'.format(   ord(cadena_1[index]) ^ ord(cadena_2[index])   )) 
+        if(len(cadena_1) != len(cadena_2)):
+            len_faltante = len(cadena_1) - len(cadena_2)
+            cadena_2 += b"0" * len_faltante
+
+       # print(len(cadena_1),len(cadena_2))
+        for index in range(len(cadena_1)):    
+            str_hamming_distance +=  ''.join('{0:b}'.format(   cadena_1[index] ^ cadena_2[index]   )) 
+        
+
+
+        for bit in str_hamming_distance:
+            if(bit == "1"):
+                count_hamming_distance += 1
+        #print(count_hamming_distance)
+        return count_hamming_distance
+
+
+dicc_res = {}
+cadena_1 = b"this is a test"
+cadena_2 = b"wokka wokka!!!"
+bit_cadena_1 = ""
+bit_cadena_2 = ""
+
+ham_dist = hamming_distance()
+ham_dist.hamming_dist(cadena_1,cadena_2)
+
+with open("encode.enc","r") as file:
+    data = file.read()
+
+file_decode = base64.b64decode(data)
+len_file_decoded = len(file_decode)
+hamming_distance_lowest = 1000000000
+
+for KEYSIZE in range(2,41):
+    for index in range(0,len_file_decoded - KEYSIZE,KEYSIZE):        
+        #print(file_decode[index:index+KEYSIZE],file_decode[index + KEYSIZE:index + 2*KEYSIZE])
+        #print(  type(file_decode[index:index+KEYSIZE])      )
+        hamming_distance_norm = ham_dist.hamming_dist(file_decode[index:index+KEYSIZE],file_decode[index + KEYSIZE:index + 2*KEYSIZE])/KEYSIZE        
+       # print(hamming_distance_norm)
+        if(hamming_distance_norm < hamming_distance_lowest):
+            if(hamming_distance_norm != 0):
+                dicc_res.update([(KEYSIZE,hamming_distance_norm)])        
+                hamming_distance_lowest = hamming_distance_norm
+    hamming_distance_lowest = 1000000000
+        
+#print(sorted(dicc_res.values()))
+print(dicc_res)
+
+# for i in dicc_res.values():
+#     print(i)
+
+
+
+
+# for index in range(0,len_file_decoded - KEYSIZE,KEYSIZE):
+#    print(file_decode[index:index+KEYSIZE],file_decode[index + KEYSIZE:index + 2*KEYSIZE])

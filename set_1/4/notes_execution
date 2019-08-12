@@ -1,0 +1,9 @@
+from detect_single_char_xor import cp4_crypt
+test = cp4_crypt("strings.cp4")
+test.xor_strings()
+
+
+
+from detect_single_char_xor import cp4_crypt
+test = cp4_crypt("encode.enc")
+test.xor_strings()
