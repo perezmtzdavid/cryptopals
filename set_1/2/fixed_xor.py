@@ -6,6 +6,5 @@ a = ''
 for i in range(0,long_cadena):
     res = int(cadena_1_hex[i],16)  ^ int(cadena_2_hex[i],16)   
     a += ''.join('{0:x}'.format(res))
-
- 
 print(a)
+
